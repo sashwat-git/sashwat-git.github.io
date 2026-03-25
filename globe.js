@@ -338,12 +338,52 @@
 
   /* ── Arcs between cities ── */
   const cities = [
-    { lat: 40.7, lon: -74 },    { lat: 51.5, lon: -0.1 },
-    { lat: 35.7, lon: 139.7 },  { lat: -33.9, lon: 18.4 },
-    { lat: -23.5, lon: -46.6 }, { lat: 28.6, lon: 77.2 },
-    { lat: 1.35, lon: 103.8 },  { lat: -33.8, lon: 151.2 },
-    { lat: 55.7, lon: 37.6 },   { lat: 37.8, lon: -122.4 },
-    { lat: 12.97, lon: 77.59 }, // Bengaluru
+    { lat: 12.97, lon: 77.59 },   // 0  Bengaluru, India
+    { lat: 44.43, lon: 26.10 },   // 1  Bucharest, Romania
+    { lat: 42.70, lon: 23.32 },   // 2  Sofia, Bulgaria
+    { lat: 46.77, lon: 23.60 },   // 3  Cluj, Romania
+    { lat: 22.20, lon: 113.55 },  // 4  Macau, China (SAR)
+    { lat: 45.50, lon: -73.57 },  // 5  Montreal, Canada
+    { lat: -43.53, lon: 172.64 }, // 6  Christchurch, New Zealand
+    { lat: -41.29, lon: 174.78 }, // 7  Wellington, New Zealand
+    { lat: 31.95, lon: 35.93 },   // 8  Amman, Jordan
+    { lat: -33.92, lon: 18.42 },  // 9  Cape Town, South Africa
+    { lat: 41.88, lon: -87.63 },  // 10 Chicago, United States
+    { lat: 38.91, lon: -77.04 },  // 11 Washington, United States
+    { lat: 5.56, lon: -0.19 },    // 12 Accra, Ghana
+    { lat: 32.78, lon: -96.80 },  // 13 Dallas, United States
+    { lat: 43.65, lon: -79.38 },  // 14 Toronto, Canada
+    { lat: 55.60, lon: 13.00 },   // 15 Malmö, Sweden
+    { lat: 49.28, lon: -123.12 }, // 16 Vancouver, Canada
+    { lat: -36.85, lon: 174.76 }, // 17 Auckland, New Zealand
+    { lat: -26.20, lon: 28.04 },  // 18 Johannesburg, South Africa
+    { lat: 51.05, lon: -114.07 }, // 19 Calgary, Canada
+    { lat: 34.06, lon: -117.60 }, // 20 Ontario (ONT), United States
+    { lat: 34.05, lon: -118.24 }, // 21 Los Angeles, United States
+    { lat: 37.77, lon: -122.42 }, // 22 San Francisco, United States
+    { lat: -33.96, lon: 25.60 },  // 23 Port Elizabeth, South Africa
+    { lat: -29.86, lon: 31.02 },  // 24 Durban, South Africa
+    { lat: -34.93, lon: 138.60 }, // 25 Adelaide, Australia
+    { lat: -31.95, lon: 115.86 }, // 26 Perth, Australia
+    { lat: -38.04, lon: 144.47 }, // 27 Avalon, Australia
+    { lat: -28.02, lon: 153.43 }, // 28 Gold Coast, Australia
+    { lat: -25.97, lon: 32.57 },  // 29 Maputo, Mozambique
+    { lat: -37.81, lon: 144.96 }, // 30 Melbourne, Australia
+    { lat: -42.88, lon: 147.33 }, // 31 Hobart, Australia
+    { lat: 32.65, lon: -16.91 },  // 32 Funchal, Portugal
+    { lat: 38.72, lon: -9.14 },   // 33 Lisbon, Portugal
+    { lat: 51.51, lon: -0.13 },   // 34 London, United Kingdom
+    { lat: 59.91, lon: 10.75 },   // 35 Oslo, Norway
+    { lat: -16.92, lon: 145.77 }, // 36 Cairns, Australia
+    { lat: 50.08, lon: 14.44 },   // 37 Prague, Czech Republic
+    { lat: -12.46, lon: 130.84 }, // 38 Darwin, Australia
+    { lat: -27.47, lon: 153.03 }, // 39 Brisbane, Australia
+    { lat: 1.35, lon: 103.82 },   // 40 Singapore
+    { lat: 18.00, lon: -76.79 },  // 41 Kingston, Jamaica
+    { lat: -35.28, lon: 149.13 }, // 42 Canberra, Australia
+    { lat: 41.15, lon: -8.61 },   // 43 Porto, Portugal
+    { lat: -33.87, lon: 151.21 }, // 44 Sydney, Australia
+    { lat: 6.37, lon: 2.39 },     // 45 Cotonou, Benin
   ];
 
   function llToVec(lat, lon, r) {
@@ -355,7 +395,57 @@
        r * Math.sin(phi) * Math.sin(th));
   }
 
-  const arcPairs = [[0,1],[1,8],[1,3],[0,4],[2,6],[5,6],[6,7],[2,9],[0,9],[3,5],[10,1]];
+  const arcPairs = [
+    // ── Europe ↔ North America ──
+    [34,5],   // London – Montreal
+    [34,14],  // London – Toronto
+    [15,10],  // Malmö – Chicago
+    [37,11],  // Prague – Washington
+    [33,13],  // Lisbon – Dallas
+    [43,16],  // Porto – Vancouver
+    [32,41],  // Funchal – Kingston
+    [35,19],  // Oslo – Calgary
+    // ── Europe ↔ Africa ──
+    [1,12],   // Bucharest – Accra
+    [2,45],   // Sofia – Cotonou
+    [3,18],   // Cluj – Johannesburg
+    // ── Europe ↔ Asia ──
+    [34,0],   // London – Bengaluru
+    [1,8],    // Bucharest – Amman
+    // ── Europe ↔ Oceania ──
+    [33,44],  // Lisbon – Sydney
+    // ── Asia ↔ Africa ──
+    [8,24],   // Amman – Durban
+    [0,18],   // Bengaluru – Johannesburg
+    [0,9],    // Bengaluru – Cape Town
+    // ── Asia ↔ Oceania ──
+    [4,44],   // Macau – Sydney
+    [40,26],  // Singapore – Perth
+    [4,39],   // Macau – Brisbane
+    [40,38],  // Singapore – Darwin
+    [8,7],    // Amman – Wellington
+    // ── Asia ↔ North America ──
+    [4,22],   // Macau – San Francisco
+    [40,21],  // Singapore – Los Angeles
+    // ── North America ↔ Africa ──
+    [13,12],  // Dallas – Accra
+    [11,29],  // Washington – Maputo
+    // ── North America ↔ Oceania ──
+    [21,44],  // LA – Sydney
+    [22,17],  // San Francisco – Auckland
+    [16,39],  // Vancouver – Brisbane
+    [20,36],  // Ontario – Cairns
+    [10,30],  // Chicago – Melbourne
+    [5,6],    // Montreal – Christchurch
+    // ── Africa ↔ Oceania ──
+    [18,26],  // Johannesburg – Perth
+    [9,25],   // Cape Town – Adelaide
+    [23,30],  // Port Elizabeth – Melbourne
+    [24,27],  // Durban – Avalon
+    [29,31],  // Maputo – Hobart
+    [45,28],  // Cotonou – Gold Coast
+    [12,42],  // Accra – Canberra
+  ];
   arcPairs.forEach(([a,b], idx) => {
     const s = llToVec(cities[a].lat, cities[a].lon, 1.005);
     const e = llToVec(cities[b].lat, cities[b].lon, 1.005);
