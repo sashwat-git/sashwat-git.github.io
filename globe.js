@@ -389,7 +389,7 @@
   var subtitle = document.querySelector('.display-subtitle');
   var slant2   = document.querySelector('.slant-line-2');
   if (subtitle && slant2) {
-    var CYCLE    = 30000;
+    var CYCLE    = 15000;
     var OUT_MS   = 1000;
     var PAUSE_MS = 400;
     setInterval(function () {
