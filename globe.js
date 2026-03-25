@@ -396,55 +396,50 @@
   }
 
   const arcPairs = [
-    // ── Europe ↔ North America ──
+    // ── Europe ↔ North America (Atlantic) ──
     [34,5],   // London – Montreal
     [34,14],  // London – Toronto
     [15,10],  // Malmö – Chicago
     [37,11],  // Prague – Washington
     [33,13],  // Lisbon – Dallas
-    [43,16],  // Porto – Vancouver
     [32,41],  // Funchal – Kingston
     [35,19],  // Oslo – Calgary
+    [43,16],  // Porto – Vancouver
+    [33,22],  // Lisbon – San Francisco
+    [32,21],  // Funchal – Los Angeles
+    [43,20],  // Porto – Ontario
     // ── Europe ↔ Africa ──
     [1,12],   // Bucharest – Accra
     [2,45],   // Sofia – Cotonou
     [3,18],   // Cluj – Johannesburg
-    // ── Europe ↔ Asia ──
+    // ── Europe ↔ Asia (over Eurasia) ──
     [34,0],   // London – Bengaluru
     [1,8],    // Bucharest – Amman
-    // ── Europe ↔ Oceania ──
-    [33,44],  // Lisbon – Sydney
     // ── Asia ↔ Africa ──
     [8,24],   // Amman – Durban
     [0,18],   // Bengaluru – Johannesburg
     [0,9],    // Bengaluru – Cape Town
-    // ── Asia ↔ Oceania ──
+    [8,29],   // Amman – Maputo
+    [0,23],   // Bengaluru – Port Elizabeth
+    // ── Asia ↔ Oceania (via SE Asia) ──
     [4,44],   // Macau – Sydney
     [40,26],  // Singapore – Perth
     [4,39],   // Macau – Brisbane
     [40,38],  // Singapore – Darwin
-    [8,7],    // Amman – Wellington
-    // ── Asia ↔ North America ──
-    [4,22],   // Macau – San Francisco
-    [40,21],  // Singapore – Los Angeles
-    // ── North America ↔ Africa ──
+    [40,30],  // Singapore – Melbourne
+    [40,25],  // Singapore – Adelaide
+    [4,36],   // Macau – Cairns
+    [40,42],  // Singapore – Canberra
+    [4,28],   // Macau – Gold Coast
+    [40,27],  // Singapore – Avalon
+    [40,31],  // Singapore – Hobart
+    [4,7],    // Macau – Wellington
+    [4,17],   // Macau – Auckland
+    [40,6],   // Singapore – Christchurch
+    // ── N. America ↔ Africa (Atlantic) ──
     [13,12],  // Dallas – Accra
-    [11,29],  // Washington – Maputo
-    // ── North America ↔ Oceania ──
-    [21,44],  // LA – Sydney
-    [22,17],  // San Francisco – Auckland
-    [16,39],  // Vancouver – Brisbane
-    [20,36],  // Ontario – Cairns
-    [10,30],  // Chicago – Melbourne
-    [5,6],    // Montreal – Christchurch
-    // ── Africa ↔ Oceania ──
+    // ── Africa ↔ Oceania (Indian Ocean) ──
     [18,26],  // Johannesburg – Perth
-    [9,25],   // Cape Town – Adelaide
-    [23,30],  // Port Elizabeth – Melbourne
-    [24,27],  // Durban – Avalon
-    [29,31],  // Maputo – Hobart
-    [45,28],  // Cotonou – Gold Coast
-    [12,42],  // Accra – Canberra
   ];
   arcPairs.forEach(([a,b], idx) => {
     const s = llToVec(cities[a].lat, cities[a].lon, 1.005);
