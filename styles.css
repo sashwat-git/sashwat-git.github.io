@@ -454,3 +454,112 @@ body {
   letter-spacing: 0.04em;
   text-shadow: none;
 }
+
+/* ── Responsive: Globe callout & city label ── */
+@media (max-width: 420px) {
+  .globe-city-label {
+    font-size: 0.42rem;
+    width: 1.3rem;
+    height: 1.3rem;
+    border-width: 1px;
+    letter-spacing: 0.04em;
+    box-shadow: 0 0 6px rgba(128,255,219,0.2), inset 0 0 4px rgba(128,255,219,0.08);
+  }
+  .globe-callout .callout-content {
+    padding: 3px 6px 3px 5px;
+    border-left-width: 1px;
+  }
+  .globe-callout .callout-city {
+    font-size: 0.5rem;
+    letter-spacing: 0.03em;
+  }
+  .globe-callout .callout-airport {
+    font-size: 0.4rem;
+  }
+  .globe-callout .callout-country {
+    font-size: 0.35rem;
+  }
+  .globe-callout .callout-svg line {
+    filter: drop-shadow(0 0 2px rgba(128,255,219,0.5));
+  }
+}
+@media (min-width: 421px) and (max-width: 640px) {
+  .globe-city-label {
+    font-size: 0.48rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-width: 1px;
+  }
+  .globe-callout .callout-content {
+    padding: 3px 8px 3px 6px;
+    border-left-width: 1.2px;
+  }
+  .globe-callout .callout-city {
+    font-size: 0.55rem;
+  }
+  .globe-callout .callout-airport {
+    font-size: 0.44rem;
+  }
+  .globe-callout .callout-country {
+    font-size: 0.38rem;
+  }
+}
+@media (min-width: 641px) and (max-width: 960px) {
+  .globe-city-label {
+    font-size: 0.54rem;
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+  .globe-callout .callout-content {
+    padding: 4px 10px 4px 7px;
+  }
+  .globe-callout .callout-city {
+    font-size: 0.6rem;
+  }
+  .globe-callout .callout-airport {
+    font-size: 0.48rem;
+  }
+  .globe-callout .callout-country {
+    font-size: 0.42rem;
+  }
+}
+@media (min-width: 961px) and (max-width: 1200px) {
+  .globe-city-label {
+    font-size: 0.58rem;
+    width: 2rem;
+    height: 2rem;
+  }
+  .globe-callout .callout-content {
+    padding: 4px 10px 4px 7px;
+  }
+  .globe-callout .callout-city {
+    font-size: 0.65rem;
+  }
+  .globe-callout .callout-airport {
+    font-size: 0.52rem;
+  }
+}
+@media (min-width: 1921px) {
+  .globe-city-label {
+    font-size: 0.78rem;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-width: 2px;
+  }
+  .globe-callout .callout-content {
+    padding: 6px 14px 6px 10px;
+    border-left-width: 2px;
+  }
+  .globe-callout .callout-city {
+    font-size: 0.82rem;
+  }
+  .globe-callout .callout-airport {
+    font-size: 0.64rem;
+  }
+  .globe-callout .callout-country {
+    font-size: 0.56rem;
+  }
+  .globe-callout .callout-svg line {
+    filter: drop-shadow(0 0 6px rgba(128,255,219,0.8));
+  }
+}
