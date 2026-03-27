@@ -863,6 +863,10 @@
           resetTimer = null;
         }, 60000);
       }
+    } else if (isZoomedIn) {
+      // Clicked empty space while zoomed in — reset to default
+      if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; }
+      resetView();
     }
   }
 
