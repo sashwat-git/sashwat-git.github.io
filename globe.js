@@ -141,14 +141,22 @@
 
   // Touch events for mobile
   let lastTouchDist = 0;
+  let touchStartPos = { x: 0, y: 0 };
+  let touchStartTime = 0;
+  let touchMoved = false;
+  let lastTouchEnd = 0; // prevent click ghost after touch
 
   canvas.addEventListener('touchstart', (e) => {
     if (e.touches.length === 1) {
-      isDragging = true;
+      touchStartPos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      touchStartTime = Date.now();
+      touchMoved = false;
+      isDragging = false; // don't drag until movement exceeds dead zone
       prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
       dragVelX = 0; dragVelY = 0;
     } else if (e.touches.length === 2) {
-      // Pinch zoom start
+      touchMoved = true; // pinch is not a tap
+      isDragging = false;
       const dx = e.touches[0].clientX - e.touches[1].clientX;
       const dy = e.touches[0].clientY - e.touches[1].clientY;
       lastTouchDist = Math.sqrt(dx * dx + dy * dy);
@@ -157,14 +165,24 @@
 
   canvas.addEventListener('touchmove', (e) => {
     e.preventDefault();
-    if (e.touches.length === 1 && isDragging) {
-      const dx = e.touches[0].clientX - prevMouse.x;
-      const dy = e.touches[0].clientY - prevMouse.y;
-      userDragY += dx * 0.005;
-      userDragX += dy * 0.005;
-      dragVelX = dy * 0.005;
-      dragVelY = dx * 0.005;
-      prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    if (e.touches.length === 1) {
+      const dx = e.touches[0].clientX - touchStartPos.x;
+      const dy = e.touches[0].clientY - touchStartPos.y;
+      const totalDist = Math.sqrt(dx * dx + dy * dy);
+      // Dead zone: only start dragging after 8px movement
+      if (!isDragging && totalDist > 8) {
+        isDragging = true;
+        touchMoved = true;
+      }
+      if (isDragging) {
+        const mdx = e.touches[0].clientX - prevMouse.x;
+        const mdy = e.touches[0].clientY - prevMouse.y;
+        userDragY += mdx * 0.005;
+        userDragX += mdy * 0.005;
+        dragVelX = mdy * 0.005;
+        dragVelY = mdx * 0.005;
+        prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
     } else if (e.touches.length === 2) {
       // Pinch zoom
       const dx = e.touches[0].clientX - e.touches[1].clientX;
@@ -179,9 +197,47 @@
     }
   }, { passive: false });
 
-  canvas.addEventListener('touchend', () => {
+  canvas.addEventListener('touchend', (e) => {
     isDragging = false;
     lastTouchDist = 0;
+    lastTouchEnd = Date.now();
+    // Tap detection: short duration, minimal movement
+    if (!touchMoved && (Date.now() - touchStartTime) < 400 && e.changedTouches && e.changedTouches.length === 1) {
+      var rect = canvas.getBoundingClientRect();
+      var touch = e.changedTouches[0];
+      mouse.x = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((touch.clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
+      var intersects = raycaster.intersectObject(cityPoints);
+      if (intersects.length > 0) {
+        var idx = intersects[0].index;
+        if (idx !== undefined && idx >= 0 && idx < cities.length) {
+          if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; }
+          var wasAlreadyZoomed = isZoomedIn;
+          isZoomedIn = true;
+          dragVelX = 0; dragVelY = 0;
+          if (wasAlreadyZoomed && selectedCityIdx >= 0 && selectedCityIdx !== idx) {
+            var newIdx = idx;
+            calloutContent.style.transition = 'opacity 0.4s ease';
+            calloutContent.style.opacity = '0';
+            setTimeout(function() { rotateToCityCenter(newIdx); }, 100);
+            setTimeout(function() {
+              showCallout(newIdx);
+              calloutContent.style.opacity = '1';
+              setTimeout(function() { calloutContent.style.transition = ''; }, 500);
+            }, 600);
+          } else {
+            rotateToCityCenter(idx);
+            showCallout(idx);
+            zoomIn();
+          }
+          resetTimer = setTimeout(function() { resetView(); resetTimer = null; }, 60000);
+        }
+      } else if (isZoomedIn) {
+        if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; }
+        resetView();
+      }
+    }
   }, { passive: true });
 
   canvas.style.cursor = 'grab';
@@ -807,7 +863,7 @@
 
   /* ── Raycaster for city click detection ── */
   var raycaster = new THREE.Raycaster();
-  raycaster.params.Points.threshold = citySize * 0.6;
+  raycaster.params.Points.threshold = screenW < 480 ? citySize * 1.8 : screenW < 768 ? citySize * 1.2 : citySize * 0.6;
   var mouse = new THREE.Vector2();
 
   function onCityClick(event) {
@@ -870,32 +926,11 @@
     }
   }
 
-  canvas.addEventListener('click', onCityClick);
-  canvas.addEventListener('touchend', function(e) {
-    // Use changedTouches for tap detection
-    if (e.changedTouches && e.changedTouches.length === 1) {
-      var rect = canvas.getBoundingClientRect();
-      var touch = e.changedTouches[0];
-      mouse.x = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
-      mouse.y = -((touch.clientY - rect.top) / rect.height) * 2 + 1;
-      raycaster.setFromCamera(mouse, camera);
-      var intersects = raycaster.intersectObject(cityPoints);
-      if (intersects.length > 0) {
-        var idx = intersects[0].index;
-        if (idx !== undefined && idx >= 0 && idx < cities.length) {
-          if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; }
-          isZoomedIn = true;
-          dragVelX = 0; dragVelY = 0;
-          rotateToCityCenter(idx);
-          showCallout(idx);
-          zoomIn();
-          resetTimer = setTimeout(function() {
-            resetView();
-            resetTimer = null;
-          }, 60000);
-        }
-      }
-    }
+  // On desktop use click; on mobile the touchend handler above already handles taps
+  canvas.addEventListener('click', function(event) {
+    // Skip ghost clicks caused by touch
+    if (Date.now() - lastTouchEnd < 500) return;
+    onCityClick(event);
   });
 
   /* ── Subtitle loop – replay every 60 s ── */
