@@ -338,34 +338,38 @@ body {
   .display-heading-inner .mach-logo { height: 1.2rem; }
   .display-subtitle { font-size: 0.32rem; letter-spacing: 0.1em; }
   .slant-line { height: 1.8rem; }
-  .slant-line-2 { height: 0.8rem; }
+  .slant-line-2 { height: 0.8rem; top: calc(50% + 0.65rem); }
 }
 @media (min-width: 361px) and (max-width: 480px) {
   .display-heading-inner .welcome-text { font-size: 1.1rem; }
   .display-heading-inner .mach-logo { height: 1.5rem; }
   .display-subtitle { font-size: 0.38rem; }
   .slant-line { height: 2rem; }
-  .slant-line-2 { height: 1rem; }
+  .slant-line-2 { height: 1rem; top: calc(50% + 0.8rem); }
 }
 @media (min-width: 481px) and (max-width: 768px) {
   .display-heading-inner .welcome-text { font-size: 1.6rem; }
   .display-heading-inner .mach-logo { height: 2.1rem; }
   .display-subtitle { font-size: 0.5rem; }
+  .slant-line-2 { top: calc(50% + 1.1rem); }
 }
 @media (min-width: 769px) and (max-width: 1200px) {
   .display-heading-inner .welcome-text { font-size: 2.2rem; }
   .display-heading-inner .mach-logo { height: 2.8rem; }
   .display-subtitle { font-size: 0.65rem; }
+  .slant-line-2 { top: calc(50% + 1.5rem); }
 }
 @media (min-width: 1201px) and (max-width: 1920px) {
   .display-heading-inner .welcome-text { font-size: 2.8rem; }
   .display-heading-inner .mach-logo { height: 3.4rem; }
   .display-subtitle { font-size: 0.78rem; }
+  .slant-line-2 { top: calc(50% + 1.8rem); }
 }
 @media (min-width: 1921px) {
   .display-heading-inner .welcome-text { font-size: 3.2rem; }
   .display-heading-inner .mach-logo { height: 4rem; }
   .display-subtitle { font-size: 0.85rem; }
+  .slant-line-2 { top: calc(50% + 2.2rem); }
 }
 
 /* ── Globe City Code Label (on click) ── */
